@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-tab1',
@@ -25,11 +26,10 @@ export class Tab1Page {
     'tt0167260', // The Lord of the Rings: The Return of the King
     'tt0110912', // Pulp Fiction
     'tt0060196', // The Good, the Bad and the Ugly
-    'tt0109830', // Forest gump 
-
+    'tt0109830', // Forest gump
   ];
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private movieService: MovieService) {
     this.loadPopularMovies();
   }
 
@@ -60,13 +60,14 @@ export class Tab1Page {
   }
 
   addToAlreadySeen(movie: any) {
-    // Implement logic to add the movie to the "Already Seen" list
-    console.log('Added to Already Seen:', movie);
+    if (movie && movie.imdbID) {
+      this.movieService.addToAlreadySeen(movie);
+    }
   }
 
   addToWatchLater(movie: any) {
-    // Implement logic to add the movie to the "Watch Later" list
-    console.log('Added to Watch Later:', movie);
+    if (movie && movie.imdbID) {
+      this.movieService.addToWatchLater(movie);
+    }
   }
-
 }
