@@ -1,0 +1,62 @@
+.movie-detail {
+  ion-card {
+    margin: 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    .poster-container {
+      position: relative;
+      
+      img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+      }
+
+      .rating-badge {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        
+        ion-badge {
+          padding: 8px 12px;
+          border-radius: 20px;
+          
+          ion-icon {
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  ion-card-header {
+    background: var(--ion-color-light);
+    
+    ion-card-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+  }
+
+  .section-title {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  ion-chip {
+    margin: 4px;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    margin-bottom: 8px;
+    
+    ion-icon {
+      font-size: 24px;
+      margin-right: 16px;
+    }
+  }
+}

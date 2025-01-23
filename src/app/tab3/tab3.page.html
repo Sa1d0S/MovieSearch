@@ -1,55 +1,57 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      My Movies
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>My Movies</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">My Movies</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Already Seen Section -->
+  <ion-text color="primary">
+    <h1 class="ion-padding-start">Already Seen Movies</h1>
+  </ion-text>
+  
   <ion-list>
-    <ion-item>
-      <ion-label>
-        <h2>Already Seen</h2>
-      </ion-label>
-    </ion-item>
-    <ion-item *ngFor="let movie of alreadySeen">
-      <ion-avatar slot="start">
-        <img [src]="movie.Poster" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ movie.Title }}</h2>
-        <p>Year: {{ movie.Year }}</p>
-        <p>Genre: {{movie.Genre}}</p>
-        <p>Rating: {{ movie.imdbRating }}/10</p>
-      </ion-label>
-      <ion-button slot="end" (click)="removeFromAlreadySeen(movie)">Remove</ion-button>
-    </ion-item>
+    <ion-item-sliding *ngFor="let movie of alreadySeen">
+      <ion-item lines="full">
+        <ion-avatar slot="start">
+          <img [src]="movie.Poster" alt="Movie poster"/>
+        </ion-avatar>
+        <ion-label class="ion-padding-start">
+          <h2><strong>{{ movie.Title }}</strong></h2>
+          <p><ion-icon name="calendar-outline"></ion-icon> {{ movie.Year }}</p>
+          <p><ion-icon name="film-outline"></ion-icon> {{ movie.Genre }}</p>
+          <p><ion-icon name="star"></ion-icon> {{ movie.imdbRating }}/10</p>
+        </ion-label>
+        <ion-button fill="clear" color="danger" (click)="removeFromAlreadySeen(movie)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 
+  <hr class="ion-margin-vertical">
+
+  <!-- Watch Later Section -->
+  <ion-text color="primary">
+    <h1 class="ion-padding-start">Watch Later</h1>
+  </ion-text>
+
   <ion-list>
-    <ion-item>
-      <ion-label>
-        <h2>Watch Later</h2>
-      </ion-label>
-    </ion-item>
-    <ion-item *ngFor="let movie of watchLater">
-      <ion-avatar slot="start">
-        <img [src]="movie.Poster" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ movie.Title }}</h2>
-        <p>Year: {{ movie.Year }}</p>
-        <p>Genre: {{movie.Genre}}</p>
-        <p>Rating: {{ movie.imdbRating }}/10</p>
-      </ion-label>
-      <ion-button slot="end" (click)="removeFromWatchLater(movie)">Remove</ion-button>
-    </ion-item>
+    <ion-item-sliding *ngFor="let movie of watchLater">
+      <ion-item lines="full">
+        <ion-avatar slot="start">
+          <img [src]="movie.Poster" alt="Movie poster"/>
+        </ion-avatar>
+        <ion-label class="ion-padding-start">
+          <h2><strong>{{ movie.Title }}</strong></h2>
+          <p><ion-icon name="calendar-outline"></ion-icon> {{ movie.Year }}</p>
+          <p><ion-icon name="film-outline"></ion-icon> {{ movie.Genre }}</p>
+          <p><ion-icon name="star"></ion-icon> {{ movie.imdbRating }}/10</p>
+        </ion-label>
+        <ion-button fill="clear" color="danger" (click)="removeFromWatchLater(movie)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

@@ -1,66 +1,85 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Search Movies
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Search Movies</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Search Movies</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-searchbar [(ngModel)]="query" (ionInput)="findMovies()"></ion-searchbar>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-searchbar 
+  class="custom-searchbar"
+  [(ngModel)]="query" 
+  (ionInput)="findMovies()"
+  (ionClear)="clearSearch()" 
+  placeholder="Search for movies..." 
+  animated="true"
+  color="primary"
+  debounce="500">
+</ion-searchbar>
 
   <ion-list *ngIf="movies.length > 0">
-    <ion-item *ngFor="let movie of movies">
-      <ion-avatar slot="start">
-        <img [src]="movie.Poster" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ movie.Title }}</h2>
-        <p>Year: {{ movie.Year }}</p>
-        <p>Genre: {{movie.Genre}}</p>
-        <p>Rating: {{ movie.imdbRating }}/10</p>
-      </ion-label>
-      <ion-button slot="end" (click)="viewDetails(movie)">Detail</ion-button>
-      <ion-button slot="end" (click)="addToAlreadySeen(movie)">Already Seen</ion-button>
-      <ion-button slot="end" (click)="addToWatchLater(movie)">Watch Later</ion-button>
-    </ion-item>
+    <ion-item-sliding *ngFor="let movie of movies">
+      <ion-item lines="full">
+        <ion-avatar slot="start">
+          <img [src]="movie.Poster" alt="Movie poster"/>
+        </ion-avatar>
+        <ion-label class="ion-padding-start">
+          <h2><strong>{{ movie.Title }}</strong></h2>
+          <p><ion-icon name="calendar-outline"></ion-icon> {{ movie.Year }}</p>
+          <p><ion-icon name="film-outline"></ion-icon> {{ movie.Genre }}</p>
+          <p><ion-icon name="star"></ion-icon> {{ movie.imdbRating }}/10</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button color="tertiary" (click)="viewDetails(movie)">
+            <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="primary" (click)="addToWatchLater(movie)">
+            <ion-icon slot="icon-only" name="bookmark-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="success" (click)="addToAlreadySeen(movie)">
+            <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 
   <ion-list *ngIf="movies.length === 0 && query.length > 2 && !loading">
     <ion-item>
-      <ion-label>
-        <h2>No results found</h2>
-      </ion-label>
+      <ion-label>No movies found</ion-label>
     </ion-item>
   </ion-list>
 
   <ion-list *ngIf="query.length <= 2 && popularMovies.length > 0">
-    <ion-item>
-      <ion-label>
-        <h2>Popular Movies</h2>
-      </ion-label>
-    </ion-item>
-    <ion-item *ngFor="let movie of popularMovies">
-      <ion-avatar slot="start">
-        <img [src]="movie.Poster" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ movie.Title }}</h2>
-        <p>Year: {{ movie.Year }}</p>
-        <p>Genre: {{movie.Genre}}</p>
-        <p>Rating: {{ movie.imdbRating }}/10</p>
-      </ion-label>
-      <ion-button slot="end" (click)="viewDetails(movie)">Detail</ion-button>
-      <ion-button slot="end" (click)="addToAlreadySeen(movie)">Already Seen</ion-button>
-      <ion-button slot="end" (click)="addToWatchLater(movie)">Watch Later</ion-button>
-    </ion-item>
+    <ion-text color="primary">
+      <h1 class="ion-padding-start">Popular movies</h1>
+    </ion-text>
+    <ion-item-sliding *ngFor="let movie of popularMovies">
+      <ion-item lines="full">
+        <ion-avatar slot="start">
+          <img [src]="movie.Poster" alt="Movie poster"/>
+        </ion-avatar>
+        <ion-label class="ion-padding-start">
+          <h2><strong>{{ movie.Title }}</strong></h2>
+          <p><ion-icon name="calendar-outline"></ion-icon> {{ movie.Year }}</p>
+          <p><ion-icon name="film-outline"></ion-icon> {{ movie.Genre }}</p>
+          <p><ion-icon name="star"></ion-icon> {{ movie.imdbRating }}/10</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button color="tertiary" (click)="viewDetails(movie)">
+            <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="primary" (click)="addToWatchLater(movie)">
+            <ion-icon slot="icon-only" name="bookmark-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="success" (click)="addToAlreadySeen(movie)">
+            <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-item-sliding>
   </ion-list>
 
-  <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+  <div class="ion-text-center">
+    <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+  </div>
 </ion-content>

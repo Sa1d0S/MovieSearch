@@ -43,20 +43,36 @@ export class Tab1Page {
   }
 
   findMovies() {
-    const query = this.query.trim();
-    if (query.length > 2) {
+    if (this.query.length > 2) {
       this.loading = true;
-      this.http.get(`${this.apiUrl}&s=${query}`).subscribe((res: any) => {
-        this.movies = res.Search || [];
-        this.loading = false;
+      this.http.get(`${this.apiUrl}&s=${this.query}`).subscribe((data: any) => {
+        if (data.Search) {
+          const moviePromises = data.Search.map((movie: any) =>
+            this.http.get(`${this.apiUrl}&i=${movie.imdbID}`).toPromise()
+          );
+          
+          Promise.all(moviePromises).then((detailedMovies) => {
+            this.movies = detailedMovies;
+            this.loading = false;
+          });
+        } else {
+          this.movies = [];
+          this.loading = false;
+        }
       });
     } else {
+      // Clear results when search is empty
       this.movies = [];
     }
   }
+  
+  clearSearch() {
+    this.query = '';
+    this.movies = [];
+  }
 
   viewDetails(movie: any) {
-    this.router.navigate(['/tabs/details', { movieId: movie.imdbID }]);
+    this.router.navigate(['/tabs/details', movie.imdbID]);
   }
 
   addToAlreadySeen(movie: any) {
